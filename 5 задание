@@ -1,0 +1,19 @@
+def u(k, x):
+    return (-1)**k * (x**k / (2**k * (k+1)))
+
+n = 10
+x_values = [0.1, 0.3, 0.4, 0.7, 1.0]
+
+print("".ljust(21, "-"))
+print("| {:^6} | {:^6} |".format("x", "S"))
+print("".ljust(21, "-"))
+
+for x in x_values:
+    k = 1
+    S = 0
+    while k <= n:
+        S += u(k, x)
+        k += 1
+    print("| {:>6.4f} | {:>6.4f} |".format(x, S))
+
+print("".ljust(21, "-"))
