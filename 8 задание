@@ -1,0 +1,108 @@
+def swap_rows(A, i, j):
+    A[i], A[j] = A[j], A[i]
+
+8.1
+def add_rows(A, i, j, factor):
+    A[i] = [sum(pair) for pair in zip(A[i], [factor * x for x in A[j]])]
+
+def gauss_elimination(A, n):
+    for i in range(n):
+        # Поиск главного элемента
+        max_element = abs(A[i][i])
+        max_row = i
+        for k in range(i + 1, n):
+            if abs(A[k][i]) > max_element:
+                max_element = abs(A[k][i])
+                max_row = k
+        # Перестановка строк
+        swap_rows(A, i, max_row)
+
+        # Приведение к верхнетреугольному виду
+        for j in range(i + 1, n):
+            factor = -A[j][i] / A[i][i]
+            add_rows(A, j, i, factor)
+    
+    # Обратный ход
+    X = [0] * n
+    for i in range(n - 1, -1, -1):
+        X[i] = (A[i][n] - sum([A[i][j] * X[j] for j in range(i + 1, n)])) / A[i][i]
+
+    return X
+
+# Исходная матрица
+A = [[1, 5, 1, 22],
+     [4, -1, 1, 46],
+     [12, 12, 72, 168]]
+
+n = len(A)
+X = gauss_elimination(A, n)
+
+print("Решение СЛАУ:")
+for i in range(n):
+    print(f"X{i+1} = {X[i]}")
+
+
+    
+8.2
+
+# Функция для создания единичной матрицы
+def create_identity_matrix(n):
+    identity_matrix = []
+    for i in range(n):
+        row = []
+        for j in range(n):
+            if i == j:
+                row.append(1)
+            else:
+                row.append(0)
+        identity_matrix.append(row)
+    return identity_matrix
+
+# Функция для умножения строки матрицы на число
+def multiply_row(matrix, row_index, coefficient):
+    for i in range(len(matrix[0])):
+        matrix[row_index][i] *= coefficient
+
+# Функция для вычитания строки умноженной на число из другой строки
+def subtract_rows(matrix, row_index1, row_index2, coefficient):
+    for i in range(len(matrix[0])):
+        matrix[row_index1][i] -= coefficient * matrix[row_index2][i]
+
+# Функция для обратной подстановки
+def back_substitution(matrix):
+    n = len(matrix)
+    for i in range(n-1, -1, -1):
+        for j in range(i-1, -1, -1):
+            multiply_row(matrix, j, matrix[j][i] / matrix[i][i])
+            subtract_rows(matrix, j, i, matrix[j][i])
+
+# Матрица коэффициентов
+A = [
+    [1, 5, 1],
+    [4, -1, 1],
+    [12, 12, 72]
+]
+
+# Расширенная матрица (Матрица коэффициентов + единичная матрица)
+extended_matrix = [row + identity_row for row, identity_row in zip(A, create_identity_matrix(len(A)))]
+
+# Прямой ход метода Гаусса-Жордана
+n = len(extended_matrix)
+for i in range(n):
+    pivot = extended_matrix[i][i]
+    if pivot == 0:
+        print("Матрица необратима")
+    
+    multiply_row(extended_matrix, i, 1/pivot)
+    for j in range(i+1,n):
+        subtract_rows(extended_matrix, j, i, extended_matrix[j][i])
+
+# Обратный ход метода Гаусса-Жордана
+back_substitution(extended_matrix)
+
+# Обратная матрица
+inverse_matrix = [row[len(A):] for row in extended_matrix]
+
+print("Обратная матрица:")
+for row in inverse_matrix:
+    print(row)
