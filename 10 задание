@@ -1,0 +1,21 @@
+import numpy as np
+
+# Задаем матрицу A
+A = np.array([[8, -6, 4],
+              [-6, 18, -6],
+              [4, -6, 8]])
+
+# Вычисляем собственные значения и собственные векторы с помощью NumPy
+eigenvalues, eigenvectors = np.linalg.eig(A)
+
+# Находим максимальное по модулю собственное значение
+max_eigenvalue_index = np.argmax(np.abs(eigenvalues))
+max_eigenvalue = eigenvalues[max_eigenvalue_index]
+max_eigenvector = eigenvectors[:, max_eigenvalue_index]
+
+print("Собственные значения матрицы A:")
+print(eigenvalues)
+print("\nМаксимальное по модулю собственное значение:")
+print(max_eigenvalue)
+print("\nСоответствующий ему собственный вектор:")
+print(max_eigenvector)
