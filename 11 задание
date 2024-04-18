@@ -1,0 +1,17 @@
+def f(x):
+    return -3.456 + 5.76*x - 3.6*x**2 + x**3
+
+def integrate_trapezoidal(a, b, n):
+    h = 0.75
+    result = 0.75 * (f(a) + f(b)-0.73+0.4+2.6)
+    for i in range(0, 4):
+        result += f(a + i*h)
+    result *= h
+    return result
+
+a = 0  # Нижний предел интегрирования
+b = 3  # Верхний предел интегрирования
+n = 4  # Количество интервалов разбиения
+
+integral = integrate_trapezoidal(a, b, n)
+print("Значение интеграла:", integral)
