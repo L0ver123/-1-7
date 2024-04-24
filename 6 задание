@@ -1,3 +1,51 @@
+f = open('6 задание.txt', 'r')
+line = f.read()
+A = []
+
+for x in line.split():
+    A.append(int(x))
+
+print('Исходный массив A:')
+print(A)
+
+m = len(A)
+Y = []
+
+for x in line.split():
+    Y.append(int(x))
+
+print('Исходный массив Y:')
+print(Y)
+
+S = sum([A[i] * Y[m-i-1] for i in range(m)])
+
+if S < 24:
+  print("Сумма S:", S)
+else:
+  print("Массив A:", A)
+  print("Массив Y:", Y)
+
+f.close() 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+чат  gpt
 # Создаем два массива A и Y
 A = [2, 3, 4, 5]  # Пример значений массива A
 Y = [1, 2, 3, 4]  # Пример значений массива Y
