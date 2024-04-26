@@ -1,20 +1,46 @@
-def seidel_method(A, b, initial_guess, tolerance=1e-10, max_iterations=1000):
-    n = len(A)
-    x = initial_guess[:]
-    for _ in range(max_iterations):
-        x_new = []
-        for i in range(n):
-            sum_ax = sum(A[i][j] * x[j] for j in range(n) if j != i)
-            new_xi = (b[i] - sum_ax) / A[i][i]
-            x_new.append(new_xi)
-        if all(abs(x_new[i] - x[i]) < tolerance for i in range(n)):
-            return x_new
-        x = x_new
-    raise ValueError("Seidel method did not converge")
+# Метод итераций
 
-A = [[1, 5, 1], [4, -1, 1], [12, 12, 72]]
-b = [22, 46, 168]
-initial_guess = [0, 0, 0]
+import math
+import numpy as np
 
-solution = seidel_method(A, b, initial_guess)
-print("Solution:", solution)
+N = 3
+
+A = np.genfromtxt('9A.txt')
+print('Исходный массив A')
+print(A)
+
+B = np.genfromtxt('9B.txt')
+print('Исходный массив B')
+print(B)
+
+Adiag = np.diag(A)
+Alpha = A.T/Adiag
+Alpha[np.diag_indices_from(Alpha)] = 0
+Alpha = Alpha.T
+
+print('===================')
+print(Alpha)
+print('===================')
+
+Beta = B/Adiag
+print(Beta)
+print('===================')
+
+x1 = np.zeros(N, dtype = float)
+x = Beta
+KMAX = 100
+k = 0
+
+while(np.max(abs(x-x1))>0.001) & (k<KMAX):
+    x = x1
+    x1 = Beta - np.dot(Alpha,x)
+    k += 1
+
+print("k = ",k, "Погрешность = ", np.max(abs(x-x1)))
+
+print('')
+print('X')
+
+for i in range (0,N):
+    print('%f'%x1[i],end=' ')
+print('')
