@@ -5,7 +5,7 @@ def F(x):
 
 a = float(input("Введите a: "))
 b = float(input("Введите b: "))
-eps = float(input("Введите Eps: "))
+eps = 0.001
 
 while abs(b - a) > eps:
     x = (a + b) / 2
