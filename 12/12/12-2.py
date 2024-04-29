@@ -7,7 +7,7 @@ def F1(x):
     return  5.76 - 6.2*x + 3*x**2
 
 x1 = float(input("Введите X0: "))
-eps = float(input("Введите Eps: "))
+eps = 0.001
 x0 = x1 + 2*eps
 
 while abs(x1 - x0) > eps:
