@@ -1,20 +1,46 @@
-# Задаем координаты точек
-x = [ 8, 2, 2, 4, 5, 6, 7, 8, 8, 3, 9, 11, 13]
-y = [6.5, 1, 3, 4, 5.5, 6, 6.5, 7, 9, 3, 8, 10,12]
+import numpy as np
+import matplotlib.pyplot as plt
 
-# Инициализируем переменные для суммы координат и их квадратов
-sum_x = sum_y = sum_xy = sum_x_squared = 0
+X = np.genfromtxt('13X.txt')
+print('Исходный массив X')
+print(X)
 
-# Считаем суммы
-for i in range(12):
-    sum_x += x[i]
-    sum_y += y[i]
-    sum_xy += x[i] * y[i]
-    sum_x_squared += x[i] ** 2
+N = len(X)
 
-# Находим оптимальные коэффициенты для уравнения прямой: y = ax + b
-a = (12 * sum_xy - sum_x * sum_y) / (12 * sum_x_squared - sum_x ** 2)
-b = (sum_y - a * sum_x) / 12
+Y = np.genfromtxt('13Y.txt')
+print('Исходный массив Y')
+print(Y)
 
-# Выводим уравнение прямой
-print(f"y = {a}x + {b}")
+Sx = sum(X)
+Sy = sum(Y)
+Sxx = np.dot(X,X)
+Sxy = np.dot(X,Y)
+
+a = (N * Sxy - Sx * Sy) / (N * Sxx - Sx * Sx)
+b = (Sy - a * Sx) / N
+print('y = ', a, '*x+', b)
+
+YY = []
+
+for x in X:
+    YY.append(float(a * x + b))
+
+Z = (np.array(Y) - np.array(YY))**2
+SS = sum(Z)
+print('SS = ', SS)
+
+plt.title('MHK')
+plt.xlabel('X')
+plt.ylabel('Y')
+
+# создаѐм рисунок с координатную плоскость
+# fig = plt.subplots()
+# значения x, которые будут отображены
+# рисуем точки
+plt.scatter(X,Y,c = 'r', marker = '*')
+
+# рисуем график
+plt.plot(X, YY, 'b')
+
+# показываем график
+plt.show()
