@@ -1,3 +1,4 @@
+исправленное
 from scipy import integrate
 
 def F(x):
